@@ -1,0 +1,3060 @@
+{
+	"info": {
+		"_postman_id": "2ac03f23-16ed-4e0f-9ec9-b7ab0f5f9869",
+		"name": "Diretoria",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25879469",
+		"_collection_link": "https://crimson-escape-346914.postman.co/workspace/QaCoders~07df5a11-3ff4-41a4-a7d8-e0bd692e80bb/collection/25879469-2ac03f23-16ed-4e0f-9ec9-b7ab0f5f9869?action=share&source=collection_link&creator=25879469"
+	},
+	"item": [
+		{
+			"name": "caminho-feliz_Dire",
+			"item": [
+				{
+					"name": "Login _Sucesso SysAdmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200)\r",
+									"});\r",
+									"pm.environment.set(\"Token\", JSON.parse(responseBody).token)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// function mail () {\r",
+									"// var email = \"dielson@test007.com.br\";\r",
+									"// var randomItem = email;\r",
+									"// return randomItem;\r",
+									"// }\r",
+									"\r",
+									"// pm.environment.set(\"Email\", mail());\r",
+									"\r",
+									"// function password () {\r",
+									"// var PassWord = \"A@b12345\";\r",
+									"// var randomItem = PassWord;\r",
+									"// return randomItem;\r",
+									"// }\r",
+									"\r",
+									"// pm.environment.set(\"PassWord\", password());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mail\": \"sysadmin@qacoders.com\",\r\n    \"password\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"Token\", JSON.parse(responseBody).token)\r",
+									"\r",
+									"let jsonData = pm.response.json()\r",
+									" \r",
+									"pm.environment.set(\"Email\", jsonData.user.mail)\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mail\": \"teste123@teste.com\",\r\n    \"password\": \"QAcoders123@\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diretoria_Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 201) {\r",
+									"    let jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.test(\"Validar Msg Cadastro realizado com sucesso!\", function () {\r",
+									"        pm.expect(jsonData.msg).to.eql(\"Cadastro realizado com sucesso!\");\r",
+									"    });\r",
+									"\r",
+									"    pm.environment.set(\"NameBoard\", jsonData.newBoard.boardName);\r",
+									"    pm.test(\"Validar o nome da Diretoria\", function () {\r",
+									"        pm.expect(jsonData.newBoard.boardName).to.eql(pm.environment.get(\"NameBoard\"));\r",
+									"    });\r",
+									"\r",
+									"    pm.environment.set(\"CodeBoard\", jsonData.newBoard.boardCode);\r",
+									"    pm.test(\"Validar o Code\", function () {\r",
+									"        pm.expect(jsonData.newBoard.boardCode).to.eql(pm.environment.get(\"CodeBoard\"));\r",
+									"    });\r",
+									"\r",
+									"    pm.environment.set(\"Status_Dire\", jsonData.newBoard.status);\r",
+									"    pm.test(\"Validar o Status da Diretoria\", function () {\r",
+									"        pm.expect(jsonData.newBoard.status).to.eql(pm.environment.get(\"Status_Dire\"));\r",
+									"    });\r",
+									"\r",
+									"    pm.environment.set(\"Id_Dire\", jsonData.newBoard._id);\r",
+									"    pm.test(\"Validar o ID\", function () {\r",
+									"        pm.expect(jsonData.newBoard._id).to.eql(pm.environment.get(\"Id_Dire\"));\r",
+									"    });\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"NameBoard\", pm.variables.replaceIn('{{$randomJobArea}}') + ' & ' +  geraStringAleatoria());",
+									"",
+									"function geraStringAleatoria() {",
+									"    var stringAleatoria = '';",
+									"    var caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';",
+									"    for (var i = 0; i < 4; i++) {",
+									"        stringAleatoria += caracteres.charAt(Math.floor(Math.random() * caracteres.length));",
+									"    }",
+									"    return stringAleatoria;",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\": \"{{NameBoard}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diretoria- GET LIST",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diretoria- GET ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200)\r",
+									"});\r",
+									"//  pm.environment.set(\"StatusCode\",(pm.response.code));\r",
+									" console.log(pm.response.code);\r",
+									"\r",
+									"//  pm.environment.set(\"nameGroup\",(jsonData.nameGroup));\r",
+									"\r",
+									"pm.test(\"O id recebido é igual a \" + pm.environment.get(\"Id_Dire\"), function () {\r",
+									"    pm.expect(jsonData.board._id).to.eql(pm.environment.get(\"Id_Dire\"));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.environment.set(\"NameBoard\", jsonData.board.boardName)\r",
+									"\r",
+									"pm.test(\"O nome do grupo é \" + pm.environment.get(\"NameBoard\"), function () {\r",
+									"    pm.expect(jsonData.board.boardName).to.eql(pm.environment.get(\"NameBoard\"));\r",
+									"});\r",
+									"\r",
+									"console.log(pm.environment.get(\"NameBoard\"));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board\", \r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"      },\r",
+									"      body: {}\r",
+									"  }, function (err, res) {\r",
+									"    var lista = []\r",
+									"    var data = res.json();\r",
+									"    for (let i = 0; i < data.length; i++) {\r",
+									"        var push_list = lista.push(data[i]._id)\r",
+									"}    \r",
+									"    function RandomUser() {\r",
+									"        randomUser = lista [Math.floor(Math.random() * lista.length)]\r",
+									"        getIndex = lista.indexOf(randomUser)\r",
+									"        return getIndex\r",
+									"}\r",
+									"    let indexUser = RandomUser()\r",
+									"    \r",
+									"    pm.environment.set(\"GetIdDiretoia\", lista[indexUser])\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/{{Id_Dire}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{Id_Dire}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AccessGroup - Count",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board/count\", \r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"      },\r",
+									"      body: {}\r",
+									"  }, function (err, res) {\r",
+									"   \r",
+									"    var Total = res.json();\r",
+									" \r",
+									"    function rodaID() {\r",
+									"        totalRegis =  Total\r",
+									"    return totalRegis\r",
+									"}\r",
+									"    pm.environment.set(\"TotalRegisPre\", rodaID().count)\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"TotalRegis\", jsonData.count)\r",
+									"\r",
+									"pm.test(\"O numero de Registro = \" + pm.environment.get(\"TotalRegisPre\"), function () {\r",
+									"    pm.expect(pm.environment.get(\"TotalRegisPre\")).to.eql(pm.environment.get(\"TotalRegis\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/count",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diretoria- Update",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"UpDateNameBoard\", pm.variables.replaceIn('{{$randomJobArea}}') + '&' + pm.variables.replaceIn('{{$randomColor}}') + \"alterado\"+geraStringAleatoria());\r",
+									"\r",
+									"function geraStringAleatoria() {\r",
+									"\r",
+									"    var stringAleatoria = '';\r",
+									"\r",
+									"    var caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';\r",
+									"\r",
+									"    for (var i = 0; i < 4; i++) {\r",
+									"\r",
+									"        stringAleatoria += caracteres.charAt(Math.floor(Math.random() * caracteres.length));\r",
+									"\r",
+									"    }\r",
+									"\r",
+									"    return stringAleatoria;\r",
+									"\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"O id recebido é igual a \" + pm.environment.get(\"Id_Dire\"), function () {\r",
+									"    pm.expect(jsonData.updatedBoard._id).to.eql(pm.environment.get(\"Id_Dire\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"O nameGroup recebido é igual a \" + pm.environment.get(\"UpDateNameBoard\"), function () {\r",
+									"    pm.expect(jsonData.updatedBoard.boardName).to.eql(pm.environment.get(\"UpDateNameBoard\"));\r",
+									"});\r",
+									"\r",
+									"// pm.test(\"Validar o corpo da resposta\", function(){\r",
+									"//     pm.response.to.have.jsonSchema(schema)\r",
+									"// })\r",
+									"\r",
+									"// const schema = {\r",
+									"//     \"title\": \"Root Schema\",\r",
+									"//     \"type\": \"object\",\r",
+									"//     \"default\": {},\r",
+									"//     \"required\": [\r",
+									"//         \"nameGroup\",\r",
+									"//         \"status\",\r",
+									"//         \"audit\",\r",
+									"//         \"_id\",\r",
+									"//         \"__v\"\r",
+									"//     ],\r",
+									"//     \"properties\": {\r",
+									"//         \"nameGroup\": {\r",
+									"//             \"title\": \"The nameGroup Schema\",\r",
+									"//             \"type\": \"string\",\r",
+									"//             \"default\": \"\",\r",
+									"//             \"examples\": [\r",
+									"//                 \"Infrastructure_white\"\r",
+									"//             ]\r",
+									"//         },\r",
+									"//         \"status\": {\r",
+									"//             \"title\": \"The status Schema\",\r",
+									"//             \"type\": \"boolean\",\r",
+									"//             \"default\": false,\r",
+									"//             \"examples\": [\r",
+									"//                 true\r",
+									"//             ]\r",
+									"//         },\r",
+									"//         \"audit\": {\r",
+									"//             \"title\": \"The audit Schema\",\r",
+									"//             \"type\": \"array\",\r",
+									"//             \"default\": [],\r",
+									"//             \"items\": {\r",
+									"//                 \"title\": \"A Schema\",\r",
+									"//                 \"type\": \"object\",\r",
+									"//                 \"default\": {},\r",
+									"//                 \"required\": [\r",
+									"//                     \"registrationDate\",\r",
+									"//                     \"loginUser\",\r",
+									"//                     \"registration\",\r",
+									"//                     \"_id\"\r",
+									"//                 ],\r",
+									"//                 \"properties\": {\r",
+									"//                     \"registrationDate\": {\r",
+									"//                         \"title\": \"The registrationDate Schema\",\r",
+									"//                         \"type\": \"string\",\r",
+									"//                         \"default\": \"\",\r",
+									"//                         \"examples\": [\r",
+									"//                             \"Fri Mar 10 2023 22:45:55 GMT-0300 (Horário Padrão de Brasília)\"\r",
+									"//                         ]\r",
+									"//                     },\r",
+									"//                     \"loginUser\": {\r",
+									"//                         \"title\": \"The loginUser Schema\",\r",
+									"//                         \"type\": \"string\",\r",
+									"//                         \"default\": \"\",\r",
+									"//                         \"examples\": [\r",
+									"//                             \"teste147\"\r",
+									"//                         ]\r",
+									"//                     },\r",
+									"//                     \"registration\": {\r",
+									"//                         \"title\": \"The registration Schema\",\r",
+									"//                         \"type\": \"string\",\r",
+									"//                         \"default\": \"\",\r",
+									"//                         \"examples\": [\r",
+									"//                             \"QaCoders-0001\"\r",
+									"//                         ]\r",
+									"//                     },\r",
+									"//                     \"_id\": {\r",
+									"//                         \"title\": \"The _id Schema\",\r",
+									"//                         \"type\": \"string\",\r",
+									"//                         \"default\": \"\",\r",
+									"//                         \"examples\": [\r",
+									"//                             \"640bdd536c3f9beb06ba5292\"\r",
+									"//                         ]\r",
+									"//                     }\r",
+									"//                 },\r",
+									"//                 \"examples\": [{\r",
+									"//                     \"registrationDate\": \"Fri Mar 10 2023 22:45:55 GMT-0300 (Horário Padrão de Brasília)\",\r",
+									"//                     \"loginUser\": \"teste147\",\r",
+									"//                     \"registration\": \"QaCoders-0001\",\r",
+									"//                     \"_id\": \"640bdd536c3f9beb06ba5292\"\r",
+									"//                 }]\r",
+									"//             },\r",
+									"//             \"examples\": [\r",
+									"//                 [{\r",
+									"//                     \"registrationDate\": \"Fri Mar 10 2023 22:45:55 GMT-0300 (Horário Padrão de Brasília)\",\r",
+									"//                     \"loginUser\": \"teste147\",\r",
+									"//                     \"registration\": \"QaCoders-0001\",\r",
+									"//                     \"_id\": \"640bdd536c3f9beb06ba5292\"\r",
+									"//                 }]\r",
+									"//             ]\r",
+									"//         },\r",
+									"//         \"_id\": {\r",
+									"//             \"title\": \"The _id Schema\",\r",
+									"//             \"type\": \"string\",\r",
+									"//             \"default\": \"\",\r",
+									"//             \"examples\": [\r",
+									"//                 \"640bdd536c3f9beb06ba5291\"\r",
+									"//             ]\r",
+									"//         },\r",
+									"//         \"__v\": {\r",
+									"//             \"title\": \"The __v Schema\",\r",
+									"//             \"type\": \"integer\",\r",
+									"//             \"default\": 0,\r",
+									"//             \"examples\": [\r",
+									"//                 0\r",
+									"//             ]\r",
+									"//         }\r",
+									"//     },\r",
+									"//     \"examples\": [{\r",
+									"//         \"nameGroup\": \"Infrastructure_white\",\r",
+									"//         \"status\": true,\r",
+									"//         \"audit\": [{\r",
+									"//             \"registrationDate\": \"Fri Mar 10 2023 22:45:55 GMT-0300 (Horário Padrão de Brasília)\",\r",
+									"//             \"loginUser\": \"teste147\",\r",
+									"//             \"registration\": \"QaCoders-0001\",\r",
+									"//             \"_id\": \"640bdd536c3f9beb06ba5292\"\r",
+									"//         }],\r",
+									"//         \"_id\": \"640bdd536c3f9beb06ba5291\",\r",
+									"//         \"__v\": 0\r",
+									"//     }]\r",
+									"// }"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\":\"{{UpDateNameBoard}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/{{Id_Dire}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{Id_Dire}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status_False_Success",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board\", \r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"      },\r",
+									"      body: {}\r",
+									"  }, \r",
+									"    function (err, res) {\r",
+									"    var lista = []\r",
+									"    var data = res.json();\r",
+									"    for (let i = 0; i < data.length; i++) {\r",
+									"        var push_list = lista.push(data[i]._id)\r",
+									"}    \r",
+									"console.log(data)\r",
+									"\r",
+									"    function RandomUser() {\r",
+									"        randomUser = lista [Math.floor(Math.random() * lista.length)]\r",
+									"        getIndex = lista.indexOf(randomUser)\r",
+									"        return getIndex\r",
+									"}\r",
+									"    let indexUser = RandomUser()\r",
+									"\r",
+									"    pm.environment.set(\"Id_Dire_Put\", lista[indexUser])\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"Status_Fal\",(false));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 202\", function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg Diretoria inativada com sucesso!\", function () {\r",
+									"    pm.expect(jsonData.msg).to.eql(\"Diretoria inativada com sucesso!\");\r",
+									"});\r",
+									"\r",
+									"// pm.environment.set(\"NameBoard\", jsonData.newBoard.boardName);\r",
+									"// pm.test(\"Validar o nome da Diretoria\", function () {\r",
+									"// pm.expect(jsonData.newBoard.boardName).to.eql(pm.environment.get(\"NameBoard\"));\r",
+									"// });\r",
+									"\r",
+									"// pm.environment.set(\"CodeBoard\", jsonData.newBoard.boardCode);\r",
+									"// pm.test(\"Validar o Code\", function () {\r",
+									"// pm.expect(jsonData.newBoard.boardCode).to.eql(pm.environment.get(\"CodeBoard\"));\r",
+									"// });\r",
+									"\r",
+									"// pm.environment.set(\"Status_Dire\", jsonData.newBoard.status);\r",
+									"// pm.test(\"Validar o Status da Diretoria\", function () {\r",
+									"// pm.expect(jsonData.newBoard.status).to.eql(pm.environment.get(\"Status_Dire\"));\r",
+									"// });\r",
+									"\r",
+									"// pm.environment.set(\"Id_Dire\", jsonData.newBoard._id);\r",
+									"// pm.test(\"Validar o ID\", function () {\r",
+									"// pm.expect(jsonData.newBoard._id).to.eql(pm.environment.get(\"Id_Dire\"));\r",
+									"// });\r",
+									"\r",
+									"\r",
+									"// pm.test(\"Validar o corpo da resposta\", function(){\r",
+									"//     pm.response.to.have.jsonSchema(schema)\r",
+									"// })"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\":\"{{NameBoardPut}}\",\r\n    \"status\":\"{{Status_Fal}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/inactivate/{{Id_Dire_Put}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"inactivate",
+								"{{Id_Dire_Put}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca_Dire_Inativada",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"Id_Ativar_Dire\", jsonData.board._id)\r",
+									"pm.environment.set(\"Name_Ativar_Dire\", jsonData.board.boardName)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/{{Id_Dire_Put}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{Id_Dire_Put}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status_True_Success",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"Status_true\",(true)) "
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg Cadastro atualizado com sucesso!\", function () {\r",
+									"    pm.expect(jsonData.msg).to.eql(\"Cadastro atualizado com sucesso!\");\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"Status_Dire_Put\", jsonData.updatedBoard.status)\r",
+									"\r",
+									"pm.test(\"Validar o Status da Diretoria\", function () {\r",
+									"pm.expect(jsonData.updatedBoard.status).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validar o ID\", function () {\r",
+									"pm.expect(jsonData.updatedBoard._id).to.eql(pm.environment.get(\"Id_Ativar_Dire\"));\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//pm.environment.set(\"Id_Dire\", jsonData.updateBoard._id)\r",
+									"\r",
+									"// pm.environment.set(\"Put_NameBoard\", jsonData.updateBoard.boardName);\r",
+									"// pm.test(\"Validar o nome da Diretoria\", function () {\r",
+									"// pm.expect(jsonData.updateBoard.boardName).to.eql(pm.environment.get(\"Put_NameBoard\"));\r",
+									"// });\r",
+									"\r",
+									"// pm.environment.set(\"CodeBoard\", jsonData.newBoard.boardCode);\r",
+									"// pm.test(\"Validar o Code\", function () {\r",
+									"// pm.expect(jsonData.newBoard.boardCode).to.eql(pm.environment.get(\"CodeBoard\"));\r",
+									"// });\r",
+									"\r",
+									"// pm.test(\"Validar o corpo da resposta\", function(){\r",
+									"//     pm.response.to.have.jsonSchema(schema)\r",
+									"// })"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\":\"{{Name_Ativar_Dire}}\",\r\n    \"status\":\"{{Status_true}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/{{Id_Ativar_Dire}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{Id_Ativar_Dire}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Exceção",
+			"item": [
+				{
+					"name": "Dire_Vazio",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg de error!\", function () {\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'diretoria' é obrigatório.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diretoria_null",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg de error\", function () {\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'diretoria' é obrigatório.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dire_Max_50caracteres",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg de error!\", function () {\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'diretoria' deve possuir no máximo 50 caracteres.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\":\"012345678901234567890123456789012345678901234567891\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dire_so_Numeros",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"Dire_number\", parseInt(pm.variables.replaceIn(\"{{$randomBankAccount}}\")))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg de error!\", function () {\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'diretoria' só pode conter letras e o caractere especial '&'.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\": {{Dire_number}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dire_ja_cadastrada",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board\", \r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"      },\r",
+									"      body: {}\r",
+									"  }, function (err, res) {\r",
+									"    var lista = []\r",
+									"    var data = res.json();\r",
+									"    for (let i = 0; i < data.length; i++) {\r",
+									"        var push_list = lista.push(data[i].boardName)\r",
+									"}\r",
+									"    function getNameDire() {\r",
+									"        randomItem = lista [Math.floor(Math.random() * lista.length)];\r",
+									"    return randomItem\r",
+									"}\r",
+									"    pm.environment.set(\"Ja_Cad_Name\", getNameDire())\r",
+									"\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg de error!\", function () {\r",
+									"    pm.expect(jsonData.alert[0]).to.eql(\"Não é possível salvar esse registro. Diretoria já cadastrada no sistema.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\": \"{{Ja_Cad_Name}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dire_So_cara_especiais",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"symbols\", \"!_&$#%.,@-;/*+;?\");\r",
+									"\r",
+									"console.log(pm.environment.get(\"symbols\"))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg de error!\", function () {\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'diretoria' só pode conter letras e o caractere especial '&'.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\": \"{{symbols}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dire_Vazio",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board\", \r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"     },\r",
+									"\r",
+									"      body: {}\r",
+									"  }, function (err, res) {\r",
+									"    var lista = []\r",
+									"    var data = res.json();\r",
+									"    for (let i = 0; i < data.length; i++) {\r",
+									"        var push_list = lista.push(data[i]._id)\r",
+									"}    \r",
+									"\r",
+									"    function RandomizaID() {\r",
+									"        randomItem = lista [Math.floor(Math.random() * lista.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"     pm.environment.set(\"PutID\", RandomizaID())\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg de error!\", function () {\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'diretoria' é obrigatório.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/{{PutID}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{PutID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diretoria_null",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board\", \r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"     },\r",
+									"\r",
+									"      body: {}\r",
+									"  }, function (err, res) {\r",
+									"    var lista = []\r",
+									"    var data = res.json();\r",
+									"    for (let i = 0; i < data.length; i++) {\r",
+									"        var push_list = lista.push(data[i]._id)\r",
+									"}    \r",
+									"\r",
+									"    function RandomizaID() {\r",
+									"        randomItem = lista [Math.floor(Math.random() * lista.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"     pm.environment.set(\"PutID\", RandomizaID())\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg de error\", function () {\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'diretoria' é obrigatório.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/{{PutID}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{PutID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dire_Max_50caracteres",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board\", \r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"     },\r",
+									"\r",
+									"      body: {}\r",
+									"  }, function (err, res) {\r",
+									"    var lista = []\r",
+									"    var data = res.json();\r",
+									"    for (let i = 0; i < data.length; i++) {\r",
+									"        var push_list = lista.push(data[i]._id)\r",
+									"}    \r",
+									"\r",
+									"    function RandomizaID() {\r",
+									"        randomItem = lista [Math.floor(Math.random() * lista.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"     pm.environment.set(\"PutID\", RandomizaID())\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg de error!\", function () {\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'diretoria' deve possuir no máximo 50 caracteres.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\":\"012345678901234567890123456789012345678901234567891\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/{{PutID}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{PutID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dire_so_Numeros",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board\", \r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"     },\r",
+									"\r",
+									"      body: {}\r",
+									"  }, function (err, res) {\r",
+									"    var lista = []\r",
+									"    var data = res.json();\r",
+									"    for (let i = 0; i < data.length; i++) {\r",
+									"        var push_list = lista.push(data[i]._id)\r",
+									"}    \r",
+									"\r",
+									"    function RandomizaID() {\r",
+									"        randomItem = lista [Math.floor(Math.random() * lista.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"     pm.environment.set(\"PutID\", RandomizaID())\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"Dire_number\", parseInt(pm.variables.replaceIn(\"{{$randomBankAccount}}\")))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg de error!\", function () {\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'diretoria' só pode conter letras e o caractere especial '&'.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\": {{Dire_number}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/{{PutID}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{PutID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dire_ja_cadastrada",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board\", \r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"      },\r",
+									"      body: {}\r",
+									"  }, function (err, res) {\r",
+									"    var lista = []\r",
+									"    var data = res.json();\r",
+									"    for (let i = 0; i < data.length; i++) {\r",
+									"        var push_list = lista.push(data[i].boardName)\r",
+									"}\r",
+									"    function getNameDire() {\r",
+									"        randomItem = lista [Math.floor(Math.random() * lista.length)];\r",
+									"    return randomItem\r",
+									"}\r",
+									"    pm.environment.set(\"Ja_Cad_Name\", getNameDire())\r",
+									"\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg de error!\", function () {\r",
+									"    pm.expect(jsonData.alert[0]).to.eql(\"Não é possível salvar esse registro. Diretoria já cadastrada no sistema.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\": \"{{Ja_Cad_Name}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/{{PutID}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{PutID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dire_So_cara_especiais",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board\", \r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"     },\r",
+									"\r",
+									"      body: {}\r",
+									"  }, function (err, res) {\r",
+									"    var lista = []\r",
+									"    var data = res.json();\r",
+									"    for (let i = 0; i < data.length; i++) {\r",
+									"        var push_list = lista.push(data[i]._id)\r",
+									"}    \r",
+									"\r",
+									"    function RandomizaID() {\r",
+									"        randomItem = lista [Math.floor(Math.random() * lista.length)];\r",
+									"\r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"     pm.environment.set(\"PutID\", RandomizaID())\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"symbols\", \"!_&$#%.,@-;/*+;?\");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar Msg de error!\", function () {\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'diretoria' só pode conter letras e o caractere especial '&'.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardName\": \"{{symbols}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/{{PutID}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{PutID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sem Token",
+			"item": [
+				{
+					"name": "Cadastro Sem Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"'Forbiden' está correto\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test('Validar mensagem de erro', function(){\r",
+									"    pm.expect(jsonData.errors).to.eql([\"No token provided.\"])\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"NameGroup\", pm.variables.replaceIn('{{$guid}}') + \"_\" + pm.variables.replaceIn('{{$randomJobArea}}'))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nameGroup\":\"{{NameGroup}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diretoria LIST Sem Token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"mensagem de erro está correta\", function () {\r",
+									"    pm.expect(jsonData.errors).to.eql([\"No token provided.\"]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/board",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diretoria- GET ID - Sem Token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board\", \r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"      },\r",
+									"      body: {}\r",
+									"  }, function (err, res) {\r",
+									"    var lista = []\r",
+									"    var id = res.json();\r",
+									"    for (let i = 0; i < id.length; i++) {\r",
+									"        var push_list = lista.push(id[i]._id)\r",
+									"}\r",
+									"    function rodaID() {\r",
+									"        randomItem = lista [Math.floor(Math.random() * lista.length)];\r",
+									"    \r",
+									"    return randomItem\r",
+									"}\r",
+									"    pm.environment.set(\"NewID\", rodaID())\r",
+									"\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"mensagem de erro está correta\", function () {\r",
+									"    pm.expect(jsonData.errors).to.eql([\"No token provided.\"]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/board/{{NewID}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{NewID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diretoria- COUNT Sem Token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"mensagem de erro está correta\", function () {\r",
+									"    pm.expect(jsonData.errors).to.eql([\"No token provided.\"]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/boar/count",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"boar",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tentativa de alterar cadastro sem token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"nameGroup\", pm.variables.replaceIn('{{$randomJobArea}}') + '_' + pm.variables.replaceIn('{{$randomColor}}') + \"_alterado\");\r",
+									"\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board\",\r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"      },\r",
+									"      body: {}\r",
+									"  }, function (err, res) {\r",
+									"    var lista = []\r",
+									"    var data = res.json();\r",
+									"    for (let i = 0; i < data.length; i++) {\r",
+									"        var push_list = lista.push(data[i]._id)\r",
+									"}    \r",
+									"    function RandomizaID() {\r",
+									"        randomItem = lista [Math.floor(Math.random() * lista.length)];\r",
+									"    \r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"     pm.environment.set(\"NewID\", RandomizaID())\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"mensagem de erro está correta\", function () {\r",
+									"    pm.expect(jsonData.errors).to.eql([\"No token provided.\"]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nameGroup\": \"{{nameGroup}}\",\r\n    \"audit\": [\r\n        {\r\n            \"loginUser\": \"teste147\",\r\n            \"registrationDate\": \"Sat Feb 11 2023 18:49:33 GMT-0300 (Horário Padrão de Brasília)\",\r\n            \"registration\":\"QaCoders-0001\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/{{NewID}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{NewID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Token-Invalido",
+			"item": [
+				{
+					"name": "Tentativa de Cadastro Com Token Invalido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"'Forbiden' está correto\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test('Validar mensagem de erro', function(){\r",
+									"    pm.expect(jsonData.errors).to.eql([\"Failed to authenticate token.\"])\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"NameGroup\", pm.variables.replaceIn('{{$guid}}') + \"_\" + pm.variables.replaceIn('{{$randomJobArea}}'))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "fugirjneghmghkwtrhmnbiowtrmnhhsfdbhklntne",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "skapskpaskop11i1ji",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nameGroup\":\"{{NameGroup}}\",\r\n    \"audit\": [\r\n        {\r\n            \"loginUser\": \"{{loginUser}}\",\r\n            \"registrationDate\": \"{{registrationDate}}\",\r\n            \"registration\":\"{{registration}}\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diretoria- GET LIST Token Invalido",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"mensagem de erro está correta\", function () {\r",
+									"    pm.expect(jsonData.errors).to.eql([\"Failed to authenticate token.\"]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "rfdnghafndsklnghklfndsfghutnrjnjfdnsnfdnjkfndskn",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "sakpskpakp1111",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/board/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diretoria- GET ID - Token Invalido",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board\", \r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"      },\r",
+									"      body: {}\r",
+									"  }, function (err, res) {\r",
+									"    var lista = []\r",
+									"    var id = res.json();\r",
+									"    for (let i = 0; i < id.length; i++) {\r",
+									"        var push_list = lista.push(id[i]._id)\r",
+									"}\r",
+									"    function rodaID() {\r",
+									"        randomItem = lista [Math.floor(Math.random() * lista.length)];\r",
+									"    \r",
+									"    return randomItem\r",
+									"}\r",
+									"    pm.environment.set(\"NewID\", rodaID())\r",
+									"\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"mensagem de erro está correta\", function () {\r",
+									"    pm.expect(jsonData.errors).to.eql([\"Failed to authenticate token.\"]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "rfdnghafndsklnghklfndsfghutnrjnjfdnsnfdnjkfndskndsgasfdhatehj",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "sakpsakpk1pk1p1kp1kp",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/{{NewID}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{NewID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diretoria- COUNT Token Invalido",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"mensagem de erro está correta\", function () {\r",
+									"    pm.expect(jsonData.errors).to.eql([\"Failed to authenticate token.\"]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "rfdnghafndsklnghklfndsfghutnrjnjfdnsnfdnjkfndskndsgasfdhatehj58763",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "sakpsakpkp1kpk1p1j",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/count",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tentativa de alterar cadastro com token invalido",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"nameGroup\", pm.variables.replaceIn('{{$randomJobArea}}') + '_' + pm.variables.replaceIn('{{$randomColor}}') + \"_alterado\");\r",
+									"\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"      url:  \"https://develop.qacoders-academy.com.br/api/board\",\r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"      },\r",
+									"      body: {}\r",
+									"  }, function (err, res) {\r",
+									"    var lista = []\r",
+									"    var data = res.json();\r",
+									"    for (let i = 0; i < data.length; i++) {\r",
+									"        var push_list = lista.push(data[i]._id)\r",
+									"}    \r",
+									"    function RandomizaID() {\r",
+									"        randomItem = lista [Math.floor(Math.random() * lista.length)];\r",
+									"    \r",
+									"    return randomItem\r",
+									"}\r",
+									"\r",
+									"     pm.environment.set(\"NewID\", RandomizaID())\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json()\r",
+									"\r",
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"mensagem de erro está correta\", function () {\r",
+									"    pm.expect(jsonData.errors).to.eql([\"Failed to authenticate token.\"]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "sdhfjaskgsngboianimgbvitemnhitrmnsfgbitrmh283",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Auhorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "1K1IO31JOI1I2HI1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nameGroup\": \"{{nameGroup}}\",\r\n    \"audit\": [\r\n        {\r\n            \"loginUser\": \"teste147\",\r\n            \"registrationDate\": \"Sat Feb 11 2023 18:49:33 GMT-0300 (Horário Padrão de Brasília)\",\r\n            \"registration\":\"QaCoders-0001\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/board/{{NewID}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"board",
+								"{{NewID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
